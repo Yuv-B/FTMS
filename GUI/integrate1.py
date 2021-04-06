@@ -550,9 +550,10 @@ class Show_H:
         print(list)
         crsr.execute("SELECT AMT FROM AMOUNTS WHERE T_ID=:TID",
         {
-            'TID':int(list[0][0])
+            'TID':int(list[3][0])
         })
         amt=crsr.fetchall()
+        print(amt)
         
         conn.commit()
         conn.close()
@@ -930,17 +931,23 @@ class Show_H_B:
 
         conn=sqlite3.connect('FTMS.db')
         crsr=conn.cursor()
-        crsr.execute("SELECT * FROM TRANS WHERE F_ID=:USER_ID",
+        crsr.execute("SELECT * FROM TRANS WHERE B_ID=:USER_ID",
         {
             'USER_ID':ID
         })
         list=crsr.fetchall()
+        print(list)
+        crsr.execute("SELECT AMT FROM AMOUNTS WHERE T_ID=:TID",
+        {
+            'TID':int(list[0][0])
+        })
+        amt=crsr.fetchall()
         conn.commit()
         conn.close()
         # self.all_quotes = Listbox(Frame_login)
 
         for item in list:
-            self.all_quotes.insert("", 'end', text=item[0], values=(item[2],item[3],'231', item[4]))
+            self.all_quotes.insert("", 'end', text=item[0], values=(item[2],item[3],amt[0], item[4]))
 
         Back = Button(Frame_login,text="Back",font=("Sans Serif",15),bg="#fc6203",fg="white", width=10, bd=0,command=self.back).place(x=350, y=450)
 
